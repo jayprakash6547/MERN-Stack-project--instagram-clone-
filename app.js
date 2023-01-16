@@ -1,23 +1,23 @@
 const express =require("express");
 const app = express();
+const mongoose =require("mongoose")
 const PORT = 5000
+const {MONGOURI} = require('./keys');
 
+require('./models/user')
+app.use(express.json());
 
-const customMiddleWare = (req,res,next)=>{
-    console.log("middleWare executed!");
-    next();
-}
+app.use(require('./routes/auth'));
 
-// app.use(customMiddleWare)
-
-
-app.get('/',(req,res)=>{
-    console.log("home");
-    res.send("hello world");
+mongoose.connect(MONGOURI,{
+    useNewUrlParser:true,
+    useUnifiedTopology:true
 })
-app.get('/about',customElements,(req,res)=>{
-    console.log("about");
-    res.send("about page");
+mongoose.connection.on('connected',()=>{
+    console.log("connected to mongo yeah");
+})
+mongoose.connection.on('error',(err)=>{
+    console.log("err connecting ",err)
 })
 
 app.listen(PORT,()=>{
