@@ -8,14 +8,14 @@ const customMiddleWare = (req,res,next)=>{
     next();
 }
 
-app.use(customMiddleWare)
+// app.use(customMiddleWare)
 
 
 app.get('/',(req,res)=>{
     console.log("home");
     res.send("hello world");
 })
-app.get('/about',(req,res)=>{
+app.get('/about',customElements,(req,res)=>{
     console.log("about");
     res.send("about page");
 })
